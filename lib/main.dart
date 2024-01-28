@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:womansafety/profile.dart';
 import 'package:womansafety/setting.dart';
 import 'Dashboard.dart';
-import 'Information.dart';
 import 'SplashScreen.dart';
 import 'aboutus.dart';
 import 'contacts.dart';

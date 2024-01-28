@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:womansafety/Location.dart';
 import 'package:womansafety/profile.dart';
 import 'package:womansafety/setting.dart';
 
+import 'AboutApplication.dart';
 import 'Chat.dart';
+
+import 'StaySafe.dart';
+import 'aboutus.dart';
+import 'contacts.dart';
 import 'feedback.dart';
 
 class Dashboard extends StatefulWidget {
@@ -42,14 +48,14 @@ class _DashboardState extends State<Dashboard> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.2,
             child: Stack(
               children: [
                 Positioned.fill(
                   child: Image.asset('assets/alarm.png'),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.3 * 0.5 - 30,
+                  top: MediaQuery.of(context).size.height * 0.2 * 0.5 - 30,
                   left: MediaQuery.of(context).size.width * 0.5 - 12,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +68,6 @@ class _DashboardState extends State<Dashboard> {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 3),
                       Icon(
                         Icons.phone,
                         size: 30,
@@ -83,6 +88,10 @@ class _DashboardState extends State<Dashboard> {
                 _buildDashboardButton('CyberCrime 1991', Icons.warning),
                 _buildDashboardButton('Motorway Police 130', Icons.location_on),
                 _buildDashboardButton('Live Chat', Icons.chat),
+                _buildDashboardButton('About', Icons.help),
+                _buildDashboardButton('Contact', Icons.contact_emergency),
+                _buildDashboardButton('Stay Safe', Icons.safety_check_outlined),
+                _buildDashboardButton('Help Center', Icons.help_center_outlined),
               ],
             ),
           ),
@@ -154,6 +163,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               );
             }
+
           });
         },
       ),
@@ -169,8 +179,36 @@ class _DashboardState extends State<Dashboard> {
             context,
             MaterialPageRoute(builder: (context) => ChatPage()),
           );
+
         }
-        // Handle other buttons if needed
+        if (text == 'About') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AboutApplication()),
+          );
+
+        }
+        if (text == 'Contact') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => aboutus()),
+          );
+
+        }
+        if (text == 'Help Center') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Location()),
+          );
+
+        }
+        if (text == 'Stay Safe') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => StaySafe()),
+          );
+
+        }
       },
       child: Container(
         margin: EdgeInsets.all(20),
