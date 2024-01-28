@@ -1,3 +1,4 @@
+import 'package:womansafety/Location.dart';
 import 'package:flutter/material.dart';
 import 'package:womansafety/profile.dart';
 import 'package:womansafety/setting.dart';
@@ -19,5 +20,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home:SplashScreen(),
     );
+
   }
 }
