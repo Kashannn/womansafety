@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'Dashboard.dart';
+import 'Regestration.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -10,6 +12,75 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final auth = FirebaseAuth.instance;
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  void login() async {
+    try {
+      await auth.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Dashboard(),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('User Not Found'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('User not found. Would you like to sign up?'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Sign Up'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Registration(),
+                      ),
+                    );
+                  },
+                ),
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Wrong password provided for that user.'),
+        ));
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,24 +112,21 @@ class _LoginState extends State<Login> {
                     hintText: 'Email',
                     prefixIcon: Icons.email_sharp,
                     isEmailField: true,
+                    controller: emailController,
                   ),
                   SizedBox(height: 30),
                   DecoratedTextField(
                     hintText: 'Password',
                     prefixIcon: Icons.lock,
                     obscureText: true,
+                    controller: passwordController,
                   ),
                   SizedBox(height: 70),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Dashboard(),
-                          ),
-                        );
+                        login();
                       },
                       child: Text(
                         "Login",
@@ -69,8 +137,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
+                        backgroundColor: Colors.pink[300],
                       ),
                     ),
                   ),
@@ -89,12 +156,14 @@ class DecoratedTextField extends StatefulWidget {
   final IconData prefixIcon;
   final bool obscureText;
   final bool isEmailField;
+  final TextEditingController? controller;
 
   const DecoratedTextField({
     required this.hintText,
     required this.prefixIcon,
     this.obscureText = false,
     this.isEmailField = false,
+    this.controller,
   });
 
   @override
@@ -107,11 +176,13 @@ class _DecoratedTextFieldState extends State<DecoratedTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: widget.controller,
       obscureText: widget.obscureText,
       style: TextStyle(color: isFocused ? Colors.black : Colors.white),
       decoration: InputDecoration(
         hintText: widget.hintText,
-        hintStyle: TextStyle(color: isFocused ? Colors.black54 : Colors.white54),
+        hintStyle:
+        TextStyle(color: isFocused ? Colors.black54 : Colors.white54),
         prefixIcon: Icon(
           widget.prefixIcon,
           color: isFocused ? Colors.black : Colors.white,

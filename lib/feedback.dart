@@ -106,7 +106,7 @@ class feedback extends StatelessWidget {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.pink[300],
+                      backgroundColor: Colors.pink[300],
                       padding: EdgeInsets.symmetric(horizontal: 100),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

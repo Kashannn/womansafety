@@ -64,13 +64,14 @@ class Contact extends StatelessWidget {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.pink[300],
+                      backgroundColor: Colors.pink[300], // Set background color here
                       padding: EdgeInsets.symmetric(horizontal: 100),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
+
                 ],
               ),
             ),
